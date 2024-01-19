@@ -1,5 +1,5 @@
 from moviepy.editor import *
-import reddit, screenshot, time, subprocess, random, configparser, sys, math
+import reddit, screenshot, youtube, time, random, configparser, sys
 from os import listdir
 from os.path import isfile, join
 
@@ -75,12 +75,22 @@ def createVideo():
     print(f"Video completed in {time.time() - startTime}")
 
     # Preview in VLC for approval before uploading
-    if (config["General"].getboolean("PreviewBeforeUpload")):
-        vlcPath = config["General"]["VLCPath"]
-        p = subprocess.Popen([vlcPath, outputFile])
-        print("Waiting for video review. Type anything to continue")
-        wait = input()
+    # if (config["General"].getboolean("PreviewBeforeUpload")):
+    #     cap = cv2.VideoCapture(outputFile)
+    #     cv2.namedWindow("Video Player", cv2.WINDOW_NORMAL)
+    #     while cap.isOpened():
+    #         success, frame = cap.read()
+    #         if success:
+    #             cv2.imshow("Video Player", frame)
+    #         else:
+    #             break
+    #     print("Waiting for video review. Type anything to continue")
+    #     wait = input()
+    #     cap.release()
+    #     cv2.destroyAllWindows()
 
+    youtube.uploadVideo(outputFile, script.title)
+    
     print("Video is ready to upload!")
     print(f"Title: {script.title}  File: {outputFile}")
     endTime = time.time()

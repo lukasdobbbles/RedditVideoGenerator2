@@ -18,7 +18,7 @@ def getContent(outputDir, postOptionCount) -> VideoScript:
     existingPostIds = __getExistingPostIds(outputDir)
 
     now = int(time.time())
-    autoSelect = postOptionCount == 0
+    autoSelect = postOptionCount == 1
     posts = []
 
     for submission in reddit.subreddit(SUBREDDIT).top(time_filter="day", limit=postOptionCount*3):
@@ -31,6 +31,7 @@ def getContent(outputDir, postOptionCount) -> VideoScript:
             break
 
     if (autoSelect):
+        print(posts)
         return __getContentFromPost(posts[0])
     else:
         postSelection = int(input("Input: "))
@@ -57,7 +58,6 @@ def __getReddit():
         client_secret=CLIENT_SECRET,
         user_agent=USER_AGENT
     )
-
 
 def __getContentFromPost(submission) -> VideoScript:
     content = VideoScript(submission.url, submission.title, submission.id)

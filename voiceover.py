@@ -1,10 +1,22 @@
-import pyttsx3
+from elevenlabs import generate
+import configparser
 
 voiceoverDir = "Voiceovers"
 
+config = configparser.ConfigParser()
+config.read('config.ini')
+API_KEY = config["ElevenLabs"]["API_KEY"]
+
 def create_voice_over(fileName, text):
     filePath = f"{voiceoverDir}/{fileName}.mp3"
-    engine = pyttsx3.init()
-    engine.save_to_file(text, filePath)
-    engine.runAndWait()
+    audio = generate(
+        text=text,
+        voice="Callum",
+        model="eleven_multilingual_v2",
+        api_key=API_KEY
+    )
+
+    with open(filePath, "wb") as audio_file:
+        audio_file.write(audio)
+
     return filePath

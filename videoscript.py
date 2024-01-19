@@ -5,7 +5,7 @@ import voiceover
 MAX_WORDS_PER_COMMENT = 100
 MIN_COMMENTS_FOR_FINISH = 4
 MIN_DURATION = 20
-MAX_DURATION = 58
+MAX_DURATION = 40
 
 class VideoScript:
     title = ""
@@ -28,6 +28,8 @@ class VideoScript:
         return (len(self.frames) >= MIN_COMMENTS_FOR_FINISH) and (self.totalDuration > MIN_DURATION)
 
     def addCommentScene(self, text, commentId) -> None:
+        if text.lower() == "deleted":
+            return True
         wordCount = len(text.split())
         if (wordCount > MAX_WORDS_PER_COMMENT):
             return True
